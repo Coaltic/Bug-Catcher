@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class Movement : MonoBehaviour
 {
 
+    private Net myNet;
+
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 4.0f;
     // [SerializeField] private float sprintMultiplier = 2.0f;
@@ -37,6 +39,7 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
+        myNet = gameObject.transform.GetChild(1).GetChild(0).GetComponent<Net>();
         characterController = this.GetComponent<CharacterController>();
         mainCamera = Camera.main;
 
@@ -71,8 +74,11 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
-        HandleRotation();
+        if (myNet.canSwing)
+        {
+            HandleMovement();
+            HandleRotation();
+        }
     }
 
     void HandleMovement()

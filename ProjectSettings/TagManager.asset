@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Bug
+  - Terrain
   layers:
   - Default
   - TransparentFX
