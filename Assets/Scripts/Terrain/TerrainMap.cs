@@ -9,7 +9,7 @@ public class TerrainMap : MonoBehaviour
     {
         terrainCom = terrain.GetComponent<Terrain>();
         terrainSize = terrainCom.terrainData.size;
-        Debug.Log($"Terrain Size: {terrainSize}");
+        // Debug.Log($"Terrain Size: {terrainSize}");
     }
 
         // Update is called once per frame

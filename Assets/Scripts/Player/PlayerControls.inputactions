@@ -113,6 +113,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Net",
+            "id": "5d694f74-47a3-4456-8f1c-0a03e9504d1d",
+            "actions": [
+                {
+                    "name": "Swing",
+                    "type": "Button",
+                    "id": "4ab3815e-4630-44ef-93eb-b9bc3da92e5a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "00a78c4c-fdc4-4977-ac5e-41143f6a4efc",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controls",
+                    "action": "Swing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
