@@ -36,10 +36,13 @@ public class Movement : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lookInput;
 
+    public Inventory myInventory;
+
 
     private void Awake()
     {
         myNet = gameObject.transform.GetChild(1).GetChild(0).GetComponent<Net>();
+        myInventory = GetComponent<Inventory>();
         characterController = this.GetComponent<CharacterController>();
         mainCamera = Camera.main;
 
@@ -74,7 +77,7 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (myNet.canSwing)
+        if (myNet.canSwing && myInventory.isInventoryClosed)
         {
             HandleMovement();
             HandleRotation();

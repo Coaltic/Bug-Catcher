@@ -8,8 +8,6 @@ public class Net : MonoBehaviour
 
     [SerializeField] private InputAction swingAction;
 
-    [SerializeField] private Animator anim;
-
     [SerializeField] private Vector3 setPosition; // 0.9, -0.75, 0
     [SerializeField] private Vector3 swingPosition; // 0.72, -0.75, 0.47 + rotation -25.0
 
@@ -21,6 +19,9 @@ public class Net : MonoBehaviour
     [SerializeField] private bool resetingSwing;
     [SerializeField] private bool countdown;
 
+    [SerializeField] Vector3 origin;
+    [SerializeField] Vector3 hitMark;
+
 
     void Start()
     {
@@ -28,7 +29,6 @@ public class Net : MonoBehaviour
         swingPosition = new Vector3(0.72f, -0.75f, 0.47f);
         netResetTimer = netResetTimerMax;
         swingAction = playerControls.FindActionMap("Net").FindAction("Swing");
-        anim = this.gameObject.transform.parent.GetComponent<Animator>();
         swingAction.Enable();
         canSwing = true;
     }
@@ -81,14 +81,19 @@ public class Net : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Bug") other.gameObject.SetActive(false);
+        if (other.tag == "Bug")
+        {
+            Debug.Log(other.gameObject.name);
+            transform.parent.parent.GetComponent<Inventory>().CollectBug(other.gameObject.GetComponent<Bug>());
+            other.gameObject.SetActive(false);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Terrain")
         {
-            Debug.Log("Hit Terrain");
+            // Debug.Log("Hit Terrain");
             swingingDown = false;
             countdown = true;
         }
@@ -98,7 +103,7 @@ public class Net : MonoBehaviour
     {
         if (collision.gameObject.tag == "Terrain")
         {
-            Debug.Log("Hit Terrain");
+            // Debug.Log("Hit Terrain");
             swingingDown = false;
             countdown = true;
         }
