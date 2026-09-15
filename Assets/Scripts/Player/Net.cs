@@ -19,8 +19,14 @@ public class Net : MonoBehaviour
     [SerializeField] private bool resetingSwing;
     [SerializeField] private bool countdown;
 
-    [SerializeField] Vector3 origin;
-    [SerializeField] Vector3 hitMark;
+    [SerializeField] Transform indicatorRaycastStartPoint;
+    [SerializeField] Transform indicatorRaycastMiddlePoint;
+    [SerializeField] Transform indicatorRaycastEndPoint;
+
+    [SerializeField] GameObject netRaycastPointsObject;
+    private Transform[] netRaycastPoints;
+
+    public GameObject marker;
 
 
     void Start()
@@ -28,6 +34,13 @@ public class Net : MonoBehaviour
         setPosition = gameObject.transform.localPosition;
         swingPosition = new Vector3(0.72f, -0.75f, 0.47f);
         netResetTimer = netResetTimerMax;
+
+        netRaycastPoints = new Transform[6];
+        for (int i = 0; i < 6; i++)
+        {
+            netRaycastPoints[i] = this.gameObject.transform.GetChild(0).GetChild(i).transform;
+        }
+
         swingAction = playerControls.FindActionMap("Net").FindAction("Swing");
         swingAction.Enable();
         canSwing = true;
@@ -36,17 +49,66 @@ public class Net : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (swingAction.triggered)
+        Debuging();
+
+        if (canSwing && Mouse.current.leftButton.isPressed)
+        {
+            marker.SetActive(true);
+            Vector3 direction = indicatorRaycastEndPoint.position - indicatorRaycastMiddlePoint.position;
+            if (Physics.Linecast(indicatorRaycastStartPoint.position, indicatorRaycastMiddlePoint.position, out RaycastHit hitInfo))
+            {
+                //Debug.DrawLine(indicatorRaycastStartPoint.position, hitInfo.point, Color.red);
+                // marker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                // marker.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                marker.transform.position = hitInfo.point;
+            }
+            else if (Physics.Raycast(indicatorRaycastMiddlePoint.position, direction, out RaycastHit secondHitInfo, 5f))
+            {
+                //Debug.DrawLine(indicatorRaycastMiddlePoint.position, hitInfo.point, Color.red);
+                // marker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                // marker.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                marker.transform.position = secondHitInfo.point;
+            }
+
+
+        }
+
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            marker.SetActive(false);
+            gameObject.transform.localPosition = swingPosition;
+            gameObject.transform.localEulerAngles = new Vector3(gameObject.transform.localRotation.x, -25f, gameObject.transform.localRotation.z);
+            swingingDown = true;
+            canSwing = false;
+        }
+        /*if (swingAction.triggered)
         {
             if (canSwing)
             {
+                Vector3 direction = indicatorRaycastEndPoint.position - indicatorRaycastMiddlePoint.position;
+                // float distance = 10f; // direction.magnitude;
+                
+                if (Physics.Linecast(indicatorRaycastStartPoint.position, indicatorRaycastMiddlePoint.position, out RaycastHit hitInfo))
+                {
+                    //Debug.DrawLine(indicatorRaycastStartPoint.position, hitInfo.point, Color.red);
+                    marker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    marker.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                    marker.transform.localPosition = hitInfo.point;
+                }
+                else if (Physics.Raycast(indicatorRaycastMiddlePoint.position, direction, out RaycastHit secondHitInfo, 5f))
+                {
+                    //Debug.DrawLine(indicatorRaycastMiddlePoint.position, hitInfo.point, Color.red);
+                    marker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    marker.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                    marker.transform.localPosition = secondHitInfo.point;
+                }
+
                 gameObject.transform.localPosition = swingPosition;
                 gameObject.transform.localEulerAngles = new Vector3(gameObject.transform.localRotation.x, -25f, gameObject.transform.localRotation.z);
                 swingingDown = true;
                 canSwing = false;
             }
-            
-        }
+        }*/
 
         if (swingingDown)
         {
@@ -69,6 +131,19 @@ public class Net : MonoBehaviour
         }
     }
 
+    void Debuging()
+    {
+        Debug.DrawLine(indicatorRaycastStartPoint.position, indicatorRaycastMiddlePoint.position, Color.red);
+        Debug.DrawLine(indicatorRaycastMiddlePoint.position, indicatorRaycastEndPoint.position, Color.red);
+
+        foreach (Transform tf in netRaycastPoints)
+        {
+            Vector3 endPos = tf.position + (tf.transform.forward * 5);
+            Debug.DrawLine(tf.position, endPos, Color.red);
+
+        }
+    }
+
     private void OnEnable()
     {
         swingAction.Enable();
@@ -83,15 +158,17 @@ public class Net : MonoBehaviour
     {
         if (other.tag == "Bug")
         {
-            Debug.Log(other.gameObject.name);
-            transform.parent.parent.GetComponent<Inventory>().CollectBug(other.gameObject.GetComponent<Bug>());
-            other.gameObject.SetActive(false);
+            Bug collectedBug = other.gameObject.GetComponent<Bug>();
+            // transform.parent.parent.GetComponent<Inventory>().CollectBug(collectedBug);
+            collectedBug.transform.parent.GetComponent<SpawnLocation>().SetTimer();
+            collectedBug.BeCollected(transform.parent.parent.GetComponent<Inventory>());
+            Destroy(other.gameObject);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Terrain")
+        if (collision.gameObject.tag == "Terrain" || collision.gameObject.tag == "Tree")
         {
             // Debug.Log("Hit Terrain");
             swingingDown = false;
@@ -101,7 +178,7 @@ public class Net : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag == "Terrain")
+        if (collision.gameObject.tag == "Terrain" || collision.gameObject.tag == "Tree")
         {
             // Debug.Log("Hit Terrain");
             swingingDown = false;
@@ -114,6 +191,22 @@ public class Net : MonoBehaviour
         Vector3 newLocation = new Vector3(5f, 0, 0);
 
         gameObject.transform.Rotate(newLocation, Space.Self);
+
+        foreach (Transform tf in netRaycastPoints)
+        {
+            Vector3 endPos = tf.position + (tf.transform.forward * 5);
+            Debug.DrawLine(tf.position, endPos, Color.red);
+            if (Physics.Linecast(tf.position, endPos, out RaycastHit hit))
+            {
+                // Debug.Log($"Cast Distance: {hit.distance}");
+                if (hit.distance < 0.1f)
+                {
+                    // Destroy(marker.gameObject);
+                    swingingDown = false;
+                    countdown = true;
+                }
+            }
+        }
     }
 
     private void SwingUp()

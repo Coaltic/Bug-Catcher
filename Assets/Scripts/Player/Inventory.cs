@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
@@ -10,7 +11,7 @@ public class Inventory : MonoBehaviour
 
     public GameObject inventoryUI;
     public TMP_Text inventoryText;
-    public List<Bug> bugList;
+    public List<CollectedBug> collectedBugsList;
     public bool isInventoryClosed;
 
 
@@ -41,15 +42,25 @@ public class Inventory : MonoBehaviour
     void UpdateInventory()
     {
         inventoryText.text = "";
-        foreach (Bug bug in bugList)
+        var bugGroups = collectedBugsList.GroupBy(bug => bug.bugName);
+        foreach (var group in bugGroups)
         {
-            inventoryText.text += bug.bugName + System.Environment.NewLine;
+            inventoryText.text += $"{group.Key} X{group.Count()}" + System.Environment.NewLine;
+
         }
     }
 
-    public void CollectBug(Bug newBug)
+    public void CollectBug(CollectedBug newCollectedBug)
     {
-        bugList.Add(newBug);
+        collectedBugsList.Add(newCollectedBug);
         UpdateInventory();
     }
+}
+
+[System.Serializable]
+public class CollectedBug
+{
+    public string bugName;
+    public int rarity;
+
 }

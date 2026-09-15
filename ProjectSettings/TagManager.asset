@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bug
   - Terrain
+  - Tree
   layers:
   - Default
   - TransparentFX
