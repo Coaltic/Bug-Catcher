@@ -9,6 +9,8 @@ public class Bug : MonoBehaviour
 
     public int rarity; // 2^ of number of total bugs - 1,,, 
 
+    public Sprite bugSprite;
+
     void Start()
     {
         if (spawnLocations.HasFlag(SpawnLocation.SpawnLocationTypes.Tree))
@@ -28,6 +30,7 @@ public class Bug : MonoBehaviour
         CollectedBug thisCollectedBug = new CollectedBug();
         thisCollectedBug.bugName = this.bugName;
         thisCollectedBug.rarity = this.rarity;
+        thisCollectedBug.bugSprite = this.bugSprite;
 
         inventory.CollectBug(thisCollectedBug);
     }

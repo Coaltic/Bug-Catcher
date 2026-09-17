@@ -753,7 +753,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7859104691887045825}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -820,6 +820,7 @@ MonoBehaviour:
   spawnLocations: 17
   bugName: Ladybug
   rarity: 1
+  bugSprite: {fileID: 21300000, guid: 41be28255d4155f49990bc27f7f82021, type: 3}
 --- !u!1 &8138398599787866340
 GameObject:
   m_ObjectHideFlags: 0

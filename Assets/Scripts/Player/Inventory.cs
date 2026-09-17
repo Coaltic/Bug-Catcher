@@ -14,6 +14,10 @@ public class Inventory : MonoBehaviour
     public List<CollectedBug> collectedBugsList;
     public bool isInventoryClosed;
 
+    public GameObject inventoryBugPanelPrefab;
+    public GameObject inventoryPanelContainer;
+    public float inventoryBugPanelPositionOffset;
+
 
     void Start()
     {
@@ -34,26 +38,66 @@ public class Inventory : MonoBehaviour
 
     void ManageInventoryOpening()
     {
-        inventoryUI.SetActive(isInventoryClosed ? true : false);
+        // inventoryUI.SetActive(isInventoryClosed ? true : false);
 
-        isInventoryClosed = isInventoryClosed ? false : true;
+        // isInventoryClosed = isInventoryClosed ? false : true;
+
+        if (isInventoryClosed)
+        {
+            inventoryUI.SetActive(true);
+            UpdateInventory();
+            isInventoryClosed = false;
+        }
+        else if (!isInventoryClosed)
+        {
+            ClearInventory();
+            inventoryUI.SetActive(false);
+            isInventoryClosed = true;
+        }
     }
 
     void UpdateInventory()
     {
-        inventoryText.text = "";
+        // int i = 0;
+        inventoryBugPanelPositionOffset = 0f;
+
         var bugGroups = collectedBugsList.GroupBy(bug => bug.bugName);
+
         foreach (var group in bugGroups)
         {
-            inventoryText.text += $"{group.Key} X{group.Count()}" + System.Environment.NewLine;
+            // inventoryText.text += $"{group.Key} X{group.Count()}" + System.Environment.NewLine;
 
+            InventoryBugPanel bugPanel = Instantiate(inventoryBugPanelPrefab).GetComponent<InventoryBugPanel>();
+            bugPanel.rectTransform = bugPanel.gameObject.GetComponent<RectTransform>();
+            inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta.x, inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta.y + bugPanel.rectTransform.rect.height);
+            bugPanel.gameObject.transform.SetParent(inventoryPanelContainer.transform, false);
+            
+
+            Vector2 targetPosition = new Vector2(bugPanel.gameObject.transform.localPosition.x, bugPanel.gameObject.transform.localPosition.y - inventoryBugPanelPositionOffset);
+            bugPanel.gameObject.transform.localPosition = targetPosition;
+            bugPanel.bugNameText.text = group.Key;
+            bugPanel.bugAmountText.text = group.Count().ToString();
+            bugPanel.bugImage.sprite = group.First().bugSprite;
+            inventoryBugPanelPositionOffset += bugPanel.rectTransform.rect.height;
+
+            // i++;
         }
+    }
+
+    public void ClearInventory()
+    {
+        for (int i = inventoryPanelContainer.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(inventoryPanelContainer.transform.GetChild(i).gameObject);
+        }
+
+        inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta.x, 0);
     }
 
     public void CollectBug(CollectedBug newCollectedBug)
     {
         collectedBugsList.Add(newCollectedBug);
-        UpdateInventory();
+        // UpdateInventory();
     }
 }
 
@@ -62,5 +106,6 @@ public class CollectedBug
 {
     public string bugName;
     public int rarity;
+    public Sprite bugSprite;
 
 }
