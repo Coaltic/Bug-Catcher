@@ -86,7 +86,7 @@ public class Movement : MonoBehaviour
 
     void HandleMovement()
     {
-        // float speedMultiplier = sprintAction.ReadValue<float>() > 0 ? sprintMultiplier : 1f;
+        walkSpeed = myNet.marker.gameObject.activeInHierarchy ? 2.0f : 4.0f;
 
         float verticalSpeed = moveInput.y * walkSpeed;
         float horizontalSpeed = moveInput.x * walkSpeed;
