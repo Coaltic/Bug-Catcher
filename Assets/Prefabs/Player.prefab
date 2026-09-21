@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5362739729388636136}
   - component: {fileID: 4348555280471574567}
   - component: {fileID: 4816235432010400238}
+  - component: {fileID: 8360396365948332928}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -138,6 +139,35 @@ MonoBehaviour:
   upDownRange: 80
   playerControls: {fileID: -944628639613478452, guid: c7ac759f294ca1645888fe608e0d41df, type: 3}
   myInventory: {fileID: 0}
+--- !u!114 &8360396365948332928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5284969947457715062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47612d9ac8d9724f813439795719cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  playerControls: {fileID: -944628639613478452, guid: c7ac759f294ca1645888fe608e0d41df, type: 3}
+  openInventoryAction:
+    m_Name: Open Inventory
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0bb7aea0-a07b-446f-9e04-0a46f385d7de
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  inventoryUI: {fileID: 0}
+  inventoryText: {fileID: 0}
+  collectedBugsList: []
+  isInventoryClosed: 0
+  inventoryBugPanelPrefab: {fileID: 5363714094193867557, guid: 7ad38a6c3a0c322409d63485f2d8c590, type: 3}
+  inventoryPanelContainer: {fileID: 0}
+  inventoryBugPanelPositionOffset: 0
 --- !u!1 &7697389729868880672
 GameObject:
   m_ObjectHideFlags: 0
