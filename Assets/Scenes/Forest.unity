@@ -745,7 +745,7 @@ PrefabInstance:
       objectReference: {fileID: 717232287}
     - target: {fileID: 702870647184912117, guid: 462de816071a4e84aad653fa286c816a, type: 3}
       propertyPath: m_VersionIndex
-      value: 4804
+      value: 4810
       objectReference: {fileID: 0}
     - target: {fileID: 832535391290546702, guid: 462de816071a4e84aad653fa286c816a, type: 3}
       propertyPath: m_Enabled
@@ -6257,6 +6257,7 @@ MonoBehaviour:
   - {fileID: 7859104691887045825, guid: 64d7dd2d208d3da4aab9bfd496997dc1, type: 3}
   - {fileID: 7275038020327682000, guid: a384062279beaf545bd6b103ef226783, type: 3}
   - {fileID: 7196154237578579757, guid: 25b2815753334f540ac9d27ec3f1f552, type: 3}
+  - {fileID: 4726406728572646490, guid: 56a610c08e2002e4187ff03bbfdfb87a, type: 3}
   spawnLocationObject: {fileID: 2143235026}
   spawnLocationsList: []
 --- !u!43 &1736473720

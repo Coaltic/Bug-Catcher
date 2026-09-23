@@ -268,10 +268,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6407525425336445272}
-  - component: {fileID: 9192937999574937515}
+  - component: {fileID: 7663044777106105358}
+  - component: {fileID: 5036672383363146562}
   m_Layer: 0
-  m_Name: Caterpillar 1
-  m_TagString: Untagged
+  m_Name: Caterpillar
+  m_TagString: Bug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,28 +294,45 @@ Transform:
   - {fileID: 2348739087036738445}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &9192937999574937515
-Animator:
-  serializedVersion: 7
+--- !u!114 &7663044777106105358
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4726406728572646490}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7282e06ed4f7b4f4ab0f6e343fd34751, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f597f707839194bae030116848217f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  spawnLocations: -1
+  bugName: Caterpillar
+  rarity: 2
+  bugSprite: {fileID: 21300000, guid: 9da1d602714fc3f45a0b634189a4b4ef, type: 3}
+--- !u!136 &5036672383363146562
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726406728572646490}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Height: 0.6
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.006386757}
 --- !u!1 &6587771322265565591
 GameObject:
   m_ObjectHideFlags: 0

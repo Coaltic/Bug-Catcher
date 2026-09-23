@@ -73,7 +73,7 @@ public class Net : MonoBehaviour
 
         }
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (canSwing && Mouse.current.leftButton.wasReleasedThisFrame)
         {
             marker.SetActive(false);
             gameObject.transform.localPosition = swingPosition;

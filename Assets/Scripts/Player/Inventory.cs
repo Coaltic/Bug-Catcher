@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryPanelContainer;
     public float inventoryBugPanelPositionOffset;
 
+    public Movement myMovement;
+
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class Inventory : MonoBehaviour
         isInventoryClosed = true;
         openInventoryAction = playerControls.FindActionMap("Inventory").FindAction("Open");
         openInventoryAction.Enable();
+        myMovement = this.gameObject.GetComponent<Movement>();
     }
 
     // Update is called once per frame
@@ -47,12 +50,19 @@ public class Inventory : MonoBehaviour
             inventoryUI.SetActive(true);
             UpdateInventory();
             isInventoryClosed = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            myMovement.myNet.canSwing = false;
         }
         else if (!isInventoryClosed)
         {
             ClearInventory();
             inventoryUI.SetActive(false);
             isInventoryClosed = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            myMovement.myNet.canSwing = true;
+
         }
     }
 

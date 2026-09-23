@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class Movement : MonoBehaviour
 {
 
-    private Net myNet;
+    public Net myNet;
 
     [Header("Movement Speeds")]
     [SerializeField] private float walkSpeed = 4.0f;
