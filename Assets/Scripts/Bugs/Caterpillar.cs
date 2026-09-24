@@ -7,6 +7,10 @@ public class Caterpillar : Bug
     {
         bugName = "Caterpillar";
         rarity = 2;
+        baseSize = 15;
+        basePrice = 0.3f;
+
+        CalculateSize();
     }
 
     // Update is called once per frame

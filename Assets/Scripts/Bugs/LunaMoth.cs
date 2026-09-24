@@ -7,6 +7,10 @@ public class LunaMoth : Bug
     {
         bugName = "Luna Moth";
         rarity = 5;
+        baseSize = 75;
+        basePrice = 1.5f;
+
+        CalculateSize();
     }
 
     // Update is called once per frame

@@ -7,6 +7,10 @@ public class Ladybug : Bug
     {
         bugName = "Ladybug";
         rarity = 1;
+        baseSize = 5;
+        basePrice = 0.15f;
+
+        CalculateSize();
     }
 
     // Update is called once per frame

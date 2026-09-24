@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
     public float inventoryBugPanelPositionOffset;
 
     public Movement myMovement;
+    public GameObject backButton;
 
 
     void Start()
@@ -85,13 +86,52 @@ public class Inventory : MonoBehaviour
 
             Vector2 targetPosition = new Vector2(bugPanel.gameObject.transform.localPosition.x, bugPanel.gameObject.transform.localPosition.y - inventoryBugPanelPositionOffset);
             bugPanel.gameObject.transform.localPosition = targetPosition;
+            bugPanel.thisBugType = group.First().bugType;
             bugPanel.bugNameText.text = group.Key;
             bugPanel.bugAmountText.text = group.Count().ToString();
             bugPanel.bugImage.sprite = group.First().bugSprite;
             inventoryBugPanelPositionOffset += bugPanel.rectTransform.rect.height;
+            Bug bugType = group.First().bugType;
+            bugPanel.thisButton.onClick.AddListener(delegate { ShowBugs(bugType); });
 
             // i++;
         }
+    }
+
+    public void ShowBugs(Bug bugType)
+    {
+        backButton.SetActive(true);
+        ClearInventory();
+        inventoryBugPanelPositionOffset = 0f;
+
+        foreach (CollectedBug bug in collectedBugsList)
+        {
+            if (bug.bugName == bugType.bugName)
+            {
+                InventoryBugPanel bugPanel = Instantiate(inventoryBugPanelPrefab).GetComponent<InventoryBugPanel>();
+                bugPanel.rectTransform = bugPanel.gameObject.GetComponent<RectTransform>();
+                inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta.x, inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta.y + bugPanel.rectTransform.rect.height);
+                bugPanel.gameObject.transform.SetParent(inventoryPanelContainer.transform, false);
+
+
+                Vector2 targetPosition = new Vector2(bugPanel.gameObject.transform.localPosition.x, bugPanel.gameObject.transform.localPosition.y - inventoryBugPanelPositionOffset);
+                bugPanel.gameObject.transform.localPosition = targetPosition;
+                bugPanel.thisBugType = bug.bugType;
+                bugPanel.bugNameText.text = bug.bugName;
+                bugPanel.bugAmountText.text = "";
+                bugPanel.bugSizeText.text = $"{bug.bugSize}mm";
+                bugPanel.bugPriceText.text = $"${bug.sellPrice:F2}";
+                bugPanel.bugImage.sprite = bug.bugSprite;
+                inventoryBugPanelPositionOffset += bugPanel.rectTransform.rect.height;
+            }
+        }
+    }
+
+    public void OnClickBack()
+    {
+        ClearInventory();
+        UpdateInventory();
+        backButton.SetActive(false);
     }
 
     public void ClearInventory()
@@ -114,8 +154,11 @@ public class Inventory : MonoBehaviour
 [System.Serializable]
 public class CollectedBug
 {
+    public Bug bugType;
     public string bugName;
     public int rarity;
+    public float bugSize;
+    public float sellPrice;
     public Sprite bugSprite;
 
 }

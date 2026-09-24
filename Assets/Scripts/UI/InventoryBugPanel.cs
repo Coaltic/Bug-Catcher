@@ -9,6 +9,10 @@ public class InventoryBugPanel : MonoBehaviour
     public TMP_Text bugNameText;
     public TMP_Text bugAmountText;
     public Image bugImage;
+    public TMP_Text bugSizeText;
+    public TMP_Text bugPriceText;
+
+    public Bug thisBugType;
 
     public RectTransform rectTransform;
     public float targetPositionBelow;
@@ -18,10 +22,12 @@ public class InventoryBugPanel : MonoBehaviour
 
     void Awake()
     {
-        bugNameText = this.gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
+        /*bugNameText = this.gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
         bugAmountText = this.gameObject.transform.GetChild(1).GetComponent<TMP_Text>();
         bugImage = this.gameObject.transform.GetChild(2).GetComponent<Image>();
-        thisButton = this.gameObject.GetComponent<Button>();
+        bugSizeText = this.gameObject.transform.GetChild(3).GetComponent<TMP_Text>();
+        bugPriceText = this.gameObject.transform.GetChild(4).GetComponent<TMP_Text>();
+        thisButton = this.gameObject.GetComponent<Button>();*/
         // thisButton.onClick.AddListener(OnClick);
         Canvas.ForceUpdateCanvases();
         Invoke("GetRectSize", 0.01f);

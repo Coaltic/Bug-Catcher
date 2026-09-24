@@ -7,6 +7,10 @@ public class Bee : Bug
     {
         bugName = "Bumble Bee";
         rarity = 3;
+        baseSize = 10;
+        basePrice = 0.4f;
+
+        CalculateSize();
     }
 
     // Update is called once per frame
