@@ -10,7 +10,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private InputAction openInventoryAction;
 
     public GameObject inventoryUI;
-    public TMP_Text inventoryText;
+    // public TMP_Text inventoryText;
+    public TMP_Text totalWorthText;
     public List<CollectedBug> collectedBugsList;
     public bool isInventoryClosed;
 
@@ -24,7 +25,8 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        inventoryText = inventoryUI.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        // inventoryText = inventoryUI.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        totalWorthText = inventoryUI.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>();
         isInventoryClosed = true;
         openInventoryAction = playerControls.FindActionMap("Inventory").FindAction("Open");
         openInventoryAction.Enable();
@@ -103,7 +105,7 @@ public class Inventory : MonoBehaviour
         backButton.SetActive(true);
         ClearInventory();
         inventoryBugPanelPositionOffset = 0f;
-
+        float totalWorth = 0;
         foreach (CollectedBug bug in collectedBugsList)
         {
             if (bug.bugName == bugType.bugName)
@@ -123,8 +125,12 @@ public class Inventory : MonoBehaviour
                 bugPanel.bugPriceText.text = $"${bug.sellPrice:F2}";
                 bugPanel.bugImage.sprite = bug.bugSprite;
                 inventoryBugPanelPositionOffset += bugPanel.rectTransform.rect.height;
+                totalWorth += bug.sellPrice;
             }
         }
+        totalWorthText.gameObject.SetActive(true);
+        totalWorthText.text = $"${totalWorth:F2}";
+
     }
 
     public void OnClickBack()
@@ -142,6 +148,7 @@ public class Inventory : MonoBehaviour
         }
 
         inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(inventoryPanelContainer.GetComponent<RectTransform>().sizeDelta.x, 0);
+        if (totalWorthText.gameObject.activeInHierarchy) totalWorthText.gameObject.SetActive(false);
     }
 
     public void CollectBug(CollectedBug newCollectedBug)
