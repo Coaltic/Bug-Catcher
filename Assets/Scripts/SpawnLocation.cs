@@ -10,7 +10,8 @@ public class SpawnLocation : MonoBehaviour
         Bush = 1 << 1, // 2
         Rock = 1 << 2, // 4
         River = 1 << 3,  // 8
-        Ground = 1 << 4 // 16
+        Ground = 1 << 4, // 16
+        Flower = 1 << 5 // 32
     }
 
     public float respawnTimerMax;
@@ -71,6 +72,12 @@ public class SpawnLocation : MonoBehaviour
                 Debug.Log("Set timer for River");
                 break;
             case SpawnLocationTypes.Ground:
+                respawnTimerMax = Random.Range(3f, 10f);
+                respawnTimer = respawnTimerMax;
+                hasBug = false;
+                Debug.Log("Set timer for Ground");
+                break;
+            case SpawnLocationTypes.Flower:
                 respawnTimerMax = Random.Range(3f, 10f);
                 respawnTimer = respawnTimerMax;
                 hasBug = false;
